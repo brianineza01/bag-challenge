@@ -1,0 +1,11 @@
+# Backend gitignore
+Backend/node_modules
+Backend/.env
+Backend/dist
+
+
+# Front end git ignore
+Frontend/node_modules
+
+.DS_Store
+.vscode
