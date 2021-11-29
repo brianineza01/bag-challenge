@@ -1,11 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import { connectDB } from "./config/connection";
 import { auth as authRoutes } from "./routes";
 import passportConfig from "./config/passport";
 import passport from "passport";
+import statusLogger from "./helpers/logger";
 
 dotenv.config();
 connectDB();
@@ -17,7 +17,7 @@ app.use(passport.initialize());
 passportConfig();
 app.use(express.json());
 
-app.use("/api/v1", authRoutes);
+app.use("/api/v1", statusLogger(authRoutes));
 
 app.use("/", (_req, res) => {
   res.status(200).send({
