@@ -1,11 +1,13 @@
-import UserModel from "../db/Models/user";
-import { iUser } from "../db/schemas/User";
+import UserModel from "../Models/user";
 
-const registerUser = async (userData: iUser) => {
-  const user = new UserModel(userData);
-  await user.save();
-  const registeredUser = await UserModel.findOne();
-  return registeredUser;
+const updateUser = async (_id: string, updateObject: any) => {
+  try {
+    const res = await UserModel.updateOne({ _id }, updateObject);
+    if (res.modifiedCount >= 1) return "success";
+    throw new Error("update failed");
+  } catch (error) {
+    console.error(error.message);
+  }
 };
 
-export { registerUser };
+export { updateUser };

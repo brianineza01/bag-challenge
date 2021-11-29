@@ -1,6 +1,7 @@
 import { Schema } from "mongoose";
 
 interface iUser {
+  _id?: string;
   firstName: string;
   lastName: string;
   email: string;

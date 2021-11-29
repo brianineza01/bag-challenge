@@ -1,7 +1,10 @@
-import { Request, Response } from "express";
+import { request, Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { registerUser } from "../helpers/userHelper";
-import { iUser } from "../db/schemas/User";
+import { registerUser } from "../helpers/authHelper";
+import { iUser } from "../schemas/User";
+import passport from "passport";
+import { updateUser } from "../helpers/userHelper";
+import { generateToken } from "../helpers/tokenHelper";
 // import { generateToken } from "../helpers/tokenHelper";
 
 const userSignUp = async (req: Request, res: Response) => {
@@ -52,4 +55,47 @@ const userSignUp = async (req: Request, res: Response) => {
   }
 };
 
-export { userSignUp };
+const userLogin = (request: Request, response: Response) => {
+  try {
+    passport.authenticate("local", { session: false }, async (error, user) => {
+      if (error || !user) {
+        return response.status(404).json({ error });
+      }
+      const { _id: id, firstName, lastName, email }: iUser = user;
+      //save the logged in Date
+      const res = await updateUser(id, { loggedInOn: Date.now() });
+      // This is what is stored in token
+      const payload = {
+        id,
+        firstName,
+        lastName,
+        email,
+      };
+      const token = generateToken(payload);
+      // Returning the token and some user information
+      request.login(payload, { session: false }, () =>
+        response.status(200).json({
+          status: 200,
+          message: "User signed in successfully",
+          data: {
+            token,
+            user: {
+              id,
+              firstName,
+              lastName,
+              email,
+            },
+          },
+        })
+      );
+    })(request, response);
+  } catch (error) {
+    return response.status(500).json({
+      status: 500,
+      message: "Something went wrong when signing in",
+      error: error.message,
+    });
+  }
+};
+
+export { userSignUp, userLogin };

@@ -2,18 +2,20 @@ import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import { connectDB } from "./db/connection";
+import { connectDB } from "./config/connection";
 import { auth as authRoutes } from "./routes";
+import passportConfig from "./config/passport";
+import passport from "passport";
 
 dotenv.config();
 connectDB();
-const app = express();
-app.use(bodyParser.json());
 const port = process.env.PORT || 8000;
+const app = express();
 
-mongoose.connection.once("open", async () => {
-  console.log("Connection opened");
-});
+app.use(passport.initialize());
+// app.use(passport.session());
+passportConfig();
+app.use(express.json());
 
 app.use("/api/v1", authRoutes);
 
@@ -30,7 +32,10 @@ app.use((_req, res) =>
     error: "PAGE NOT FOUND",
   })
 );
-
-app.listen(port, () => {
-  console.log(`Server is running on port localhost:${port} .`);
+mongoose.connection.once("open", async () => {
+  app.listen(port, () => {
+    console.log(
+      `Database successfully connected and the server is listening on port localhost:${port} .`
+    );
+  });
 });
