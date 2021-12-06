@@ -1,9 +1,10 @@
 import "./App.css";
+import AppRouter from "./Components/Router";
 
 function App() {
   return (
     <div className="App">
-      <div>Welcome to BAG CODING CHALLENGE</div>
+      <AppRouter />
     </div>
   );
 }
