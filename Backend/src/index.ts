@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cors from "cors";
+
 import { connectDB } from "./config/connection";
 import { auth as authRoutes } from "./routes";
 import passportConfig from "./config/passport";
@@ -16,6 +18,7 @@ app.use(passport.initialize());
 // app.use(passport.session());
 passportConfig();
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/v1", statusLogger(authRoutes));
 

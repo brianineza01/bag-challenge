@@ -45,6 +45,12 @@ const userSignUp = async (req: Request, res: Response) => {
       });
     }
   } catch (error) {
+    if (error.message.search("E11000") !== -1)
+      return res.status(409).json({
+        status: 409,
+        message: "user already exist",
+      });
+
     return res.status(500).json({
       status: 500,
       message: "Something went wrong when registering the user",

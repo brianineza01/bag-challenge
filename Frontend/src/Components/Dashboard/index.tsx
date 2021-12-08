@@ -12,7 +12,6 @@ export default function Dashboard() {
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-  console.log(Outlet);
   return (
     <>
       <Sidebar
