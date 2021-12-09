@@ -4,7 +4,6 @@ import { useLocation, Navigate } from "react-router-dom";
 function RequireAuth({ children, user }: { children: JSX.Element; user: any }) {
   // let auth = useAuth();
   let location = useLocation();
-  console.log(user);
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
@@ -12,4 +11,21 @@ function RequireAuth({ children, user }: { children: JSX.Element; user: any }) {
   return children;
 }
 
-export default RequireAuth;
+function CheckAuthenticationOnLogin({
+  children,
+  user,
+}: {
+  children: JSX.Element;
+  user: any;
+}) {
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
+  if (!user) {
+    return children;
+  }
+
+  return <Navigate to={from} state={{ from: location }} />;
+}
+
+export { RequireAuth, CheckAuthenticationOnLogin };

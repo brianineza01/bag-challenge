@@ -1,17 +1,31 @@
-import { Box, Link, VStack } from "@chakra-ui/react";
+import { Box, Link as ChakraLink, VStack } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import Logo from "../Logo";
 
 const SidebarContent = ({ handleClick }: { handleClick: Function }) => (
-  <VStack>
-    <Logo />
-    <Box pt={10}>
-      <Link>MY LIST</Link>
+  <VStack p={5} px={0}>
+    <Box h="70px" p={5} px={0}>
+      <Logo />
     </Box>
     <Box>
-      <Link>VISITED</Link>
+      <ChakraLink as={Link} to="/">
+        MY LIST
+      </ChakraLink>
     </Box>
     <Box>
-      <Link>TO VISIT</Link>
+      <ChakraLink as={Link} to="/explore">
+        EXPLORE
+      </ChakraLink>
+    </Box>
+    <Box>
+      <ChakraLink as={Link} to="/?status=visited">
+        VISITED
+      </ChakraLink>
+    </Box>
+    <Box>
+      <ChakraLink as={Link} to="/?status=visited">
+        TO VISIT
+      </ChakraLink>
     </Box>
   </VStack>
 );

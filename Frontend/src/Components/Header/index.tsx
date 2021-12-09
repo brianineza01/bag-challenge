@@ -9,12 +9,14 @@ import {
 } from "@chakra-ui/react";
 import ThemeSwitcher from "../ThemeSwitcher/Index";
 import PlaceHolderImage from "../../Assets/profileImagePlaceholder.jpg";
+import { useAuth } from "../../Helpers/useAuth";
 
 const Header = ({ title }: { title: any }) => {
   const iconColor = useColorModeValue("#212121", "#dedfe0");
   const iconBgColor = useColorModeValue("#F2F2F2", "#333b4d");
   const textColor = useColorModeValue("#999999", "#F7FAFC99");
   const imageBorderColor = useColorModeValue("black", "white");
+  const { user } = useAuth();
 
   return (
     <Box h={70} p={5} px={0}>
@@ -47,7 +49,7 @@ const Header = ({ title }: { title: any }) => {
                 Hey,{" "}
               </Text>
               <Text display="inline">
-                <b>Jane</b>
+                <b>{user.firstName}</b>
               </Text>
             </Box>
             <Image

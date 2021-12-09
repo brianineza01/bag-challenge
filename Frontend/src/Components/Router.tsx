@@ -1,17 +1,21 @@
 import { useEffect } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { localAuth } from "../Helpers/authentication";
 import { getToken } from "../Helpers/authHelper";
+import { useApp } from "../Helpers/useApp";
 import { useAuth } from "../Helpers/useAuth";
 import CountryInfo from "./countryInfo";
 import Dashboard from "./Dashboard";
 import CountryList from "./Dashboard/CountryList";
 import Login from "./Login/Index";
 import Register from "./Register";
-import RequireAuth from "./RequireAuth";
+import { CheckAuthenticationOnLogin, RequireAuth } from "./RequireAuth";
+import UserList from "./UserList";
 
 export const Router = () => {
   const { setUser, user } = useAuth();
+  const { fetchCountriesList, countriesList } = useApp();
+
   useEffect(() => {
     const tokenValues = getToken();
     if (tokenValues === null) {
@@ -29,15 +33,30 @@ export const Router = () => {
     }
   }, [setUser]);
 
-  useEffect(() => console.log("user updated"), [user]);
+  // fetch the countries and store that data into the provider
+  useEffect(() => {
+    fetchCountriesList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="register" element={<Register />} />
+        <Route
+          path="register"
+          element={
+            <CheckAuthenticationOnLogin user={user}>
+              <Register />
+            </CheckAuthenticationOnLogin>
+          }
+        />
         <Route
           path="login"
-          element={!user ? <Login /> : <Navigate to="/" />}
+          element={
+            <CheckAuthenticationOnLogin user={user}>
+              <Login />
+            </CheckAuthenticationOnLogin>
+          }
         ></Route>
         <Route
           path="/"
@@ -47,8 +66,12 @@ export const Router = () => {
             </RequireAuth>
           }
         >
-          <Route index element={<CountryList />} />
+          <Route
+            path="/explore"
+            element={<CountryList title="explore" list={countriesList} />}
+          />
           <Route path="country/:id" element={<CountryInfo />} />
+          <Route index element={<UserList />} />
         </Route>
       </Routes>
     </BrowserRouter>

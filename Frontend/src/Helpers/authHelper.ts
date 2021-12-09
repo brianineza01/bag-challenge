@@ -17,7 +17,17 @@ type tokenType = {
   id: string;
 };
 
-const getToken = () => {
+type iFunc = {
+  token: string | undefined;
+  exp: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  iat: number;
+  id: string;
+} | null;
+
+const getToken = (): iFunc => {
   const token = window.localStorage.getItem("token");
   if (token === null) return null;
   const decodedToken: tokenType = jwtDecode(token);

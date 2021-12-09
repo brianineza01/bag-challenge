@@ -26,9 +26,10 @@ const LoginForm = () => {
   const location = useLocation();
   let from = location.state?.from?.pathname || "/";
 
+  console.log("the from in the explore page is:", from);
+
   const handleSubmit = async (values: any, actions: any) => {
     auth.signIn(values, (status: any) => {
-      console.log(status);
       if (status !== "success") {
         return toast({
           title: "Error Occurred.",

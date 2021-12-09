@@ -21,11 +21,11 @@ const Sidebar = ({ isOpen, variant, onClose }: Props) => {
     <Box
       position="fixed"
       left={0}
-      p={5}
       w="200px"
       top={0}
       h="100%"
       borderRight="1px"
+      py={15}
     >
       <Content handleClick={onClose} />
     </Box>
