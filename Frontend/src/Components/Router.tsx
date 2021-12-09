@@ -68,7 +68,7 @@ export const Router = () => {
         >
           <Route
             path="/explore"
-            element={<CountryList title="explore" list={countriesList} />}
+            element={<CountryList title="Explore" list={countriesList} />}
           />
           <Route path="country/:id" element={<CountryInfo />} />
           <Route index element={<UserList />} />

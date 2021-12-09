@@ -27,7 +27,7 @@ const SearchIcon = () => (
     />
   </Icon>
 );
-const Find = () => {
+const Find = ({ setSearch, search }: { setSearch: any; search: string }) => {
   const options = [
     { value: "africa", label: "Africa" },
     { value: "america", label: "America" },
@@ -36,6 +36,8 @@ const Find = () => {
     { value: "oceania", label: "Oceania" },
   ];
   const placeHolderColor = useColorModeValue("black", "white");
+  const handleSearchChange = (event: any) => setSearch(event.target.value);
+
   return (
     <Flex p={5} px={0}>
       <Box>
@@ -46,6 +48,8 @@ const Find = () => {
             variant="filled"
             placeholder="Search For a Country ...."
             _placeholder={{ color: placeHolderColor }}
+            value={search}
+            onChange={handleSearchChange}
           />
         </InputGroup>
       </Box>
@@ -60,6 +64,9 @@ const Find = () => {
           size="lg"
           tagVariant="filled"
           _placeholder={{ color: placeHolderColor }}
+          // onChange={(option: { value: string; label: string }) =>
+          //   setSearch(option.value)
+          // }
         />
       </FormControl>
     </Flex>

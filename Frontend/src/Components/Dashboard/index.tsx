@@ -23,6 +23,7 @@ export default function Dashboard() {
         ml={!variants?.navigationButton ? 200 : undefined}
         py={15}
         px={[5, 10, 20]}
+        overflow="hidden"
       >
         <Outlet />
       </Box>

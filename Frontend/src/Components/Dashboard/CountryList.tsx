@@ -7,15 +7,48 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import TickIcon from "../../Assets/TickIcon";
 import TrashIcon from "../../Assets/TrashIcon";
 import Header from "../Header";
 import Find from "./Find";
 
 const CountryList = ({ title, list }: { title: string; list: any[] }) => {
-  const Countries = list.map((item) => {
+  const [search, setSearch] = useState("");
+  const [searchData, setSearchData] = useState(list);
+
+  useEffect(() => {
+    setSearchData(list);
+  }, [list]);
+
+  // filter the values when search is triggered or the list of country is updated
+  useEffect(() => {
+    if (search === "") {
+      return setSearchData(list);
+    }
+
+    const searchResults = list?.filter((element) => {
+      if (element?.capital === undefined) {
+        return (
+          element.name.common.toLowerCase().search(search.toLowerCase()) > -1 ||
+          element.name.official.toLowerCase().search(search.toLowerCase()) > -1
+        );
+      }
+
+      return (
+        element.name.common.toLowerCase().search(search.toLowerCase()) > -1 ||
+        element.name.official.toLowerCase().search(search.toLowerCase()) > -1 ||
+        element?.capital[0].toLowerCase().search(search.toLowerCase()) > -1
+      );
+    });
+    setSearchData(searchResults);
+  }, [search, list]);
+
+  console.log(search);
+
+  const Countries = searchData.map((item) => {
     let currency: string | null = "";
-    if (item.currencies === undefined) {
+    if (item?.currencies === undefined) {
       currency = null;
     } else {
       for (const cur in item?.currencies) {
@@ -23,7 +56,7 @@ const CountryList = ({ title, list }: { title: string; list: any[] }) => {
       }
     }
     let capital: string | null =
-      item.capital === undefined ? null : item.capital[0];
+      item?.capital === undefined ? null : item?.capital[0];
     return (
       <CountryBox
         name={item?.name.common}
@@ -31,6 +64,7 @@ const CountryList = ({ title, list }: { title: string; list: any[] }) => {
         capital={capital}
         currency={currency}
         flag={item?.flags.png}
+        key={item?.name.common}
       />
     );
   });
@@ -42,8 +76,11 @@ const CountryList = ({ title, list }: { title: string; list: any[] }) => {
         // onShowSidebar={toggleSidebar}
         title={<Text fontSize="3xl">{title}</Text>}
       />
-      <Find />
-      <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+      <Find setSearch={setSearch} search={search} />
+      <Grid
+        templateColumns={["repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]}
+        gap={6}
+      >
         {Countries}
       </Grid>
     </>
