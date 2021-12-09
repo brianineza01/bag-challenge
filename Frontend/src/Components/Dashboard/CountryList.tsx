@@ -16,28 +16,43 @@ import Find from "./Find";
 const CountryList = ({ title, list }: { title: string; list: any[] }) => {
   const [search, setSearch] = useState("");
   const [searchData, setSearchData] = useState(list);
+  const [filter, setFilter] = useState([]);
 
+  // initialize search data
   useEffect(() => {
     setSearchData(list);
   }, [list]);
+
+  // function to filter the values
+  useEffect(() => {
+    if (filter.length === 0) {
+      return setSearchData(list);
+    }
+
+    const filteredArray = list.filter((el) =>
+      filter.some((fil: any) => el.continents[0].toLowerCase() === fil.value)
+    );
+
+    setSearchData(filteredArray);
+  }, [filter, list]);
 
   // filter the values when search is triggered or the list of country is updated
   useEffect(() => {
     if (search === "") {
       return setSearchData(list);
     }
-
     const searchResults = list?.filter((element) => {
       if (element?.capital === undefined) {
         return (
-          element.name.common.toLowerCase().search(search.toLowerCase()) > -1 ||
-          element.name.official.toLowerCase().search(search.toLowerCase()) > -1
+          element?.name.common.toLowerCase().search(search.toLowerCase()) >
+            -1 ||
+          element?.name.official.toLowerCase().search(search.toLowerCase()) > -1
         );
       }
-
       return (
-        element.name.common.toLowerCase().search(search.toLowerCase()) > -1 ||
-        element.name.official.toLowerCase().search(search.toLowerCase()) > -1 ||
+        element?.name.common.toLowerCase().search(search.toLowerCase()) > -1 ||
+        element?.name.official.toLowerCase().search(search.toLowerCase()) >
+          -1 ||
         element?.capital[0].toLowerCase().search(search.toLowerCase()) > -1
       );
     });
@@ -76,7 +91,12 @@ const CountryList = ({ title, list }: { title: string; list: any[] }) => {
         // onShowSidebar={toggleSidebar}
         title={<Text fontSize="3xl">{title}</Text>}
       />
-      <Find setSearch={setSearch} search={search} />
+      <Find
+        setSearch={setSearch}
+        search={search}
+        setFilter={setFilter}
+        filter={filter}
+      />
       <Grid
         templateColumns={["repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]}
         gap={6}

@@ -27,17 +27,33 @@ const SearchIcon = () => (
     />
   </Icon>
 );
-const Find = ({ setSearch, search }: { setSearch: any; search: string }) => {
+const Find = ({
+  setSearch,
+  search,
+  setFilter,
+  filter,
+}: {
+  setSearch: any;
+  search: string;
+  setFilter: any;
+  filter: any;
+}) => {
   const options = [
     { value: "africa", label: "Africa" },
-    { value: "america", label: "America" },
+    { value: "north america", label: "North America" },
+    { value: "south america", label: "South America" },
     { value: "asia", label: "Asia" },
     { value: "europe", label: "Europe" },
     { value: "oceania", label: "Oceania" },
   ];
   const placeHolderColor = useColorModeValue("black", "white");
-  const handleSearchChange = (event: any) => setSearch(event.target.value);
+  const handleSearchChange = (event: any) => {
+    setSearch(event.target.value);
+  };
 
+  const handleFilter = (selectedOptions: any) => {
+    setFilter(selectedOptions);
+  };
   return (
     <Flex p={5} px={0}>
       <Box>
@@ -56,6 +72,7 @@ const Find = ({ setSearch, search }: { setSearch: any; search: string }) => {
       <Spacer />
       <FormControl w="40%">
         <Select
+          value={filter}
           isMulti
           options={options}
           placeholder="Filter by Region"
@@ -64,9 +81,7 @@ const Find = ({ setSearch, search }: { setSearch: any; search: string }) => {
           size="lg"
           tagVariant="filled"
           _placeholder={{ color: placeHolderColor }}
-          // onChange={(option: { value: string; label: string }) =>
-          //   setSearch(option.value)
-          // }
+          onChange={handleFilter}
         />
       </FormControl>
     </Flex>
