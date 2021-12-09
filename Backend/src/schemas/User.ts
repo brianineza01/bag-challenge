@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 
+type iCountries = { name: string; status?: "to visit" | "visited" }[];
 interface iUser {
   _id?: string;
   firstName: string;
@@ -11,6 +12,7 @@ interface iUser {
   country: string;
   createdOn?: Date;
   loggedInOn?: Date;
+  countries?: iCountries;
 }
 
 const userSchema = new Schema({
@@ -23,6 +25,15 @@ const userSchema = new Schema({
   country: { type: String, required: true },
   createdOn: { type: Date, default: Date.now },
   loggedInOn: Date,
+  countries: [
+    {
+      name: { type: String },
+      status: {
+        type: String,
+        default: "to visit",
+      },
+    },
+  ],
 });
 
-export { userSchema, iUser };
+export { userSchema, iUser, iCountries };

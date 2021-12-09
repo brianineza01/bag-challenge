@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import { connectDB } from "./config/connection";
-import { auth as authRoutes } from "./routes";
+import { auth as authRoutes, country as countryRoutes } from "./routes";
 import passportConfig from "./config/passport";
 import passport from "passport";
 import statusLogger from "./helpers/logger";
@@ -20,6 +20,7 @@ passportConfig();
 app.use(express.json());
 app.use(cors());
 
+app.use("/api/v1/country", statusLogger(countryRoutes));
 app.use("/api/v1", statusLogger(authRoutes));
 
 app.use("/", (_req, res) => {
@@ -29,7 +30,7 @@ app.use("/", (_req, res) => {
 });
 
 // Route to handle not found
-app.use((_req, res) =>
+app.use((req, res) =>
   res.status(404).send({
     status: 404,
     error: "PAGE NOT FOUND",

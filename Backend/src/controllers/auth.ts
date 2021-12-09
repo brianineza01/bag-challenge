@@ -5,7 +5,6 @@ import { iUser } from "../schemas/User";
 import passport from "passport";
 import { updateUser } from "../helpers/userHelper";
 import { generateToken } from "../helpers/tokenHelper";
-// import { generateToken } from "../helpers/tokenHelper";
 
 const userSignUp = async (req: Request, res: Response) => {
   try {

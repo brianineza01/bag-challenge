@@ -11,9 +11,9 @@ const generateToken = (data: any) => {
 const verifyToken = (token: string) => {
   try {
     const data = jwt.verify(token, SECRET_KEY);
-    return data;
+    return { status: "success", user: data };
   } catch (err) {
-    return err;
+    return { status: "error occurred", error: err.message };
   }
 };
 
