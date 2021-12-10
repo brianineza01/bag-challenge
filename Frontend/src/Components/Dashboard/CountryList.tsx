@@ -1,16 +1,7 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  Heading,
-  Image,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Grid, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import TickIcon from "../../Assets/TickIcon";
-import TrashIcon from "../../Assets/TrashIcon";
 import Header from "../Header";
+import CountryBox from "./CountryBox";
 import Find from "./Find";
 
 const CountryList = ({ title, list }: { title: string; list: any[] }) => {
@@ -59,8 +50,6 @@ const CountryList = ({ title, list }: { title: string; list: any[] }) => {
     setSearchData(searchResults);
   }, [search, list]);
 
-  console.log(search);
-
   const Countries = searchData.map((item) => {
     let currency: string | null = "";
     if (item?.currencies === undefined) {
@@ -80,6 +69,7 @@ const CountryList = ({ title, list }: { title: string; list: any[] }) => {
         currency={currency}
         flag={item?.flags.png}
         key={item?.name.common}
+        status={item?.userStatus}
       />
     );
   });
@@ -108,51 +98,3 @@ const CountryList = ({ title, list }: { title: string; list: any[] }) => {
 };
 
 export default CountryList;
-
-const CountryBox = ({
-  name,
-  population,
-  capital,
-  currency,
-  flag,
-}: {
-  name: string;
-  population: string;
-  capital: string | null;
-  currency: string | null;
-  flag?: string;
-}) => {
-  const boxBackgroundColor = useColorModeValue("#F2F2F2", "#2e3542");
-  const iconBackgroundColor = useColorModeValue("#D9D9D9", "#48546b");
-  const iconColor = useColorModeValue("white", "black");
-
-  return (
-    <Flex
-      bg={boxBackgroundColor}
-      min-h="350px"
-      w="250px"
-      borderRadius="10px"
-      flexDirection="column"
-      justifyContent="space-between"
-    >
-      <Image src={flag} borderRadius="10px" />
-      <Box p="20px">
-        <Heading size="md">{name}</Heading>
-        <Text>
-          <span style={{ display: "block" }}>Population: {population}</span>
-          {capital === null ? null : (
-            <span style={{ display: "block" }}>Capital: {capital}</span>
-          )}
-          {currency === null ? null : (
-            <span style={{ display: "block" }}>Currency: {currency}</span>
-          )}
-        </Text>
-      </Box>
-
-      <Flex justifyContent="flex-end" px="10px" py="10px">
-        <TrashIcon bg={iconBackgroundColor} color={iconColor} />
-        <TickIcon bg={iconBackgroundColor} color={iconColor} />
-      </Flex>
-    </Flex>
-  );
-};

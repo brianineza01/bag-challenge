@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 
-const TickIcon = () => (
+const BackIcon = () => (
   <Box h="20px" w="20px" p="5px">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,4 +17,4 @@ const TickIcon = () => (
   </Box>
 );
 
-export default TickIcon;
+export default BackIcon;

@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 
-const TrashIcon = ({
+const PlusIcon = ({
   bg,
   color,
   onClick,
@@ -16,7 +16,7 @@ const TrashIcon = ({
     borderRadius="full"
     bg={bg}
     p="5px"
-    mr="5px"
+    mr={1}
     _hover={{ bg: "#ebedf0" }}
     _active={{
       bg: "#dddfe2",
@@ -32,19 +32,17 @@ const TrashIcon = ({
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke={color}
+      className="h-5 w-5"
+      viewBox="0 0 20 20"
+      fill={color}
     >
       <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+        fillRule="evenodd"
+        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+        clipRule="evenodd"
       />
     </svg>
   </Box>
 );
 
-export default TrashIcon;
+export default PlusIcon;

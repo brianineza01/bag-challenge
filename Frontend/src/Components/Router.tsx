@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { localAuth } from "../Helpers/authentication";
@@ -6,7 +7,7 @@ import { useApp } from "../Helpers/useApp";
 import { useAuth } from "../Helpers/useAuth";
 import CountryInfo from "./countryInfo";
 import Dashboard from "./Dashboard";
-import CountryList from "./Dashboard/CountryList";
+import Explore from "./Explore";
 import Login from "./Login/Index";
 import Register from "./Register";
 import { CheckAuthenticationOnLogin, RequireAuth } from "./RequireAuth";
@@ -14,7 +15,7 @@ import UserList from "./UserList";
 
 export const Router = () => {
   const { setUser, user } = useAuth();
-  const { fetchCountriesList, countriesList } = useApp();
+  const { fetchCountriesList, fetchUserCountryList, countriesList } = useApp();
 
   useEffect(() => {
     const tokenValues = getToken();
@@ -36,8 +37,10 @@ export const Router = () => {
   // fetch the countries and store that data into the provider
   useEffect(() => {
     fetchCountriesList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    fetchUserCountryList();
+  }, [countriesList]);
 
   return (
     <BrowserRouter>
@@ -66,11 +69,8 @@ export const Router = () => {
             </RequireAuth>
           }
         >
-          <Route
-            path="/explore"
-            element={<CountryList title="Explore" list={countriesList} />}
-          />
-          <Route path="country/:id" element={<CountryInfo />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="country/:name" element={<CountryInfo />} />
           <Route index element={<UserList />} />
         </Route>
       </Routes>
