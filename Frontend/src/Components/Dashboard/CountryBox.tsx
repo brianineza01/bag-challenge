@@ -6,12 +6,14 @@ import {
   Image,
   Text,
   useToast,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import TickIcon from "../../Assets/TickIcon";
 import PlusIcon from "../../Assets/PlusIcon";
 import TrashIcon from "../../Assets/TrashIcon";
 import superFetch from "../../Config/superFetch";
 import { useApp } from "../../Helpers/useApp";
+import { Link, useLocation } from "react-router-dom";
 
 const CountryBox = ({
   name,
@@ -35,6 +37,8 @@ const CountryBox = ({
 
   const { fetchUserCountryList } = useApp();
   const toast = useToast();
+
+  const location = useLocation();
 
   const handleDelete = async (country: string) => {
     try {
@@ -115,6 +119,8 @@ const CountryBox = ({
     }
   };
 
+  const link = `/country/${name}`;
+
   return (
     <Flex
       bg={boxBackgroundColor}
@@ -124,9 +130,24 @@ const CountryBox = ({
       flexDirection="column"
       justifyContent="space-between"
     >
-      <Image src={flag} borderRadius="10px" />
+      <ChakraLink
+        as={Link}
+        to={link}
+        textDecoration="none"
+        state={{ from: location }}
+      >
+        <Image src={flag} borderRadius="10px" />
+      </ChakraLink>
+
       <Box p="20px">
-        <Heading size="md">{name}</Heading>
+        <ChakraLink
+          as={Link}
+          to={link}
+          textDecoration="none"
+          state={{ from: location }}
+        >
+          <Heading size="md">{name}</Heading>
+        </ChakraLink>
         <Text>
           <span style={{ display: "block" }}>Population: {population}</span>
           {capital === null ? null : (
