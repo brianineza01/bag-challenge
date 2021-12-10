@@ -23,7 +23,6 @@ Install the dependencies and devDependencies and start the server.
 7.  Then go into the frontend directory and run `npm install` or `yarn install`.
 8.  After the process is done run `npm start` or `yarn start`
 9.  The app will open in your default browser and you can try to create an account and use the app.
-10.
 
 ### Technologies Used
 
