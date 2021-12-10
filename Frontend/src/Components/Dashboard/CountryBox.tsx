@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   useColorModeValue,
   Flex,
@@ -44,7 +45,6 @@ const CountryBox = ({
     try {
       const queryString = `/country/delete/${country}`;
       const { data } = await superFetch.delete(queryString);
-      console.log(data);
       fetchUserCountryList();
       toast({
         title: "Success",
@@ -67,7 +67,6 @@ const CountryBox = ({
       const { data } = await superFetch.post("/country/add", {
         country: country,
       });
-      console.log(data);
       fetchUserCountryList();
       toast({
         title: "Success",
@@ -100,7 +99,6 @@ const CountryBox = ({
       let submittedStatus = status === "visited" ? "to visit" : "visited";
       const queryString = `/country/update/${country}?status=${submittedStatus}`;
       const { data } = await superFetch.patch(queryString);
-      console.log(data);
       fetchUserCountryList();
       toast({
         title: "Success",

@@ -19,9 +19,6 @@ const CountryDetails = () => {
   const [countryValues, setCountryValues] = useState<any>();
   const { countriesList } = useApp();
 
-  const location = useLocation();
-  console.log(location);
-
   useEffect(() => {
     const countryInfo = countriesList.find(
       (country) => country.name.common.toLowerCase() === name?.toLowerCase()

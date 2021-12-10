@@ -23,7 +23,7 @@ const SidebarContent = ({ handleClick }: { handleClick: Function }) => (
       </ChakraLink>
     </Box>
     <Box>
-      <ChakraLink as={Link} to="/?status=visited">
+      <ChakraLink as={Link} to="/?status=to visit">
         TO VISIT
       </ChakraLink>
     </Box>
